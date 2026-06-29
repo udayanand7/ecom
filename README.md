@@ -1,257 +1,244 @@
 # 🛒 E-Commerce Automation Framework
 
-A **production-grade** Selenium + pytest automation framework targeting [SauceDemo](https://www.saucedemo.com) — a free, purpose-built demo e-commerce site perfect for automation practice.
+> A production-ready Selenium automation framework built with **Python**, **Pytest**, and the **Page Object Model (POM)** to automate an end-to-end e-commerce application.
+
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![Pytest](https://img.shields.io/badge/Pytest-8.x-green.svg)
+![Selenium](https://img.shields.io/badge/Selenium-4.x-brightgreen.svg)
+![License](https://img.shields.io/badge/License-MIT-orange.svg)
 
 ---
 
-## ✅ Features
+## 📌 Overview
 
-| Feature | Details |
-|---|---|
-| **Login / Logout** | Valid, invalid, locked-user, empty-field scenarios |
-| **Product Listing** | Sort A→Z, Z→A, Price Low→High, Price High→Low |
-| **Cart Management** | Add by name, add first-N, remove, empty cart |
-| **Checkout Flow** | Step 1 (info), Step 2 (review), Order Confirmation |
-| **End-to-End Tests** | Full user journey in a single test |
-| **Screenshot on Failure** | Auto-captures PNG and embeds in HTML report |
-| **HTML Reports** | Self-contained `reports/report.html` |
-| **Logging** | Colored console + rotating file logs |
-| **Page Object Model** | Clean separation of locators and actions |
-| **Data-Driven Testing** | Excel (`users.xlsx`, `checkout_data.xlsx`) + CSV (`products.csv`) |
+This project automates the complete shopping workflow of the **SauceDemo** e-commerce website using modern Selenium automation practices.
+
+It is designed with maintainability, scalability, and readability in mind, making it suitable for learning automation testing and showcasing QA engineering skills.
+
+### 🌐 Website Under Test
+
+https://www.saucedemo.com
 
 ---
 
-## 🌐 Target Site
+# 🚀 Key Features
 
-**URL:** `https://www.saucedemo.com`
-
-| Username | Password | Status |
-|---|---|---|
-| `standard_user` | `secret_sauce` | ✅ Works |
-| `locked_out_user` | `secret_sauce` | 🔒 Locked |
-| `problem_user` | `secret_sauce` | ✅ Works (with quirks) |
-| `performance_glitch_user` | `secret_sauce` | ✅ Works (slow) |
-
----
-
-## 🖥️ Windows Setup – Step by Step
-
-### Prerequisites
-
-**1. Install Python 3.9+**
-- Go to: https://www.python.org/downloads/
-- Download **Python 3.11** (recommended)
-- During installation, **check the box ✅ "Add Python to PATH"**
-- Verify in CMD:
-  ```
-  python --version
-  ```
-  Should print something like: `Python 3.11.x`
-
-**2. Install Google Chrome**
-- Download from: https://www.google.com/chrome/
-- `webdriver-manager` will automatically download the matching ChromeDriver — no manual setup needed
-
-**3. Install Git (optional, for GitHub)**
-- Download from: https://git-scm.com/downloads
-- Use all default settings during install
+* ✅ Page Object Model (POM)
+* ✅ Selenium 4 WebDriver
+* ✅ Pytest Framework
+* ✅ Data-Driven Testing (Excel & CSV)
+* ✅ HTML Test Reports
+* ✅ Automatic Screenshot on Failure
+* ✅ Logging with Color Console Output
+* ✅ Cross Browser Support
+* ✅ End-to-End Purchase Flow
+* ✅ Modular & Scalable Framework
 
 ---
 
-### Installation
+# 🛠 Tech Stack
 
-**Step 1 – Extract the zip**
-- Right-click the downloaded zip → **Extract All**
-- Choose a folder, e.g.: `C:\Users\YourName\ecommerce_automation`
-
-**Step 2 – Open Command Prompt in that folder**
-- Open File Explorer → navigate to the extracted folder
-- Click the address bar → type `cmd` → press Enter
-  *(This opens CMD already in that folder)*
-
-**Step 3 – Run the setup script**
-```cmd
-setup_windows.bat
-```
-This will:
-- ✅ Check Python is installed
-- ✅ Create a virtual environment (`venv\`)
-- ✅ Install all dependencies from `requirements.txt`
-- ✅ Create `reports\screenshots\` and `logs\` folders
+| Technology        | Purpose              |
+| ----------------- | -------------------- |
+| Python            | Programming Language |
+| Selenium          | Browser Automation   |
+| Pytest            | Test Framework       |
+| WebDriver Manager | Driver Management    |
+| OpenPyXL          | Excel Data Handling  |
+| Pytest HTML       | HTML Reports         |
+| ColorLog          | Logging              |
+| Faker             | Test Data Generation |
 
 ---
 
-## ▶️ Running Tests
+# 📂 Project Structure
 
-Activate the virtual environment first (if not already done):
-```cmd
-venv\Scripts\activate
-```
-
-### Run all tests
-```cmd
-pytest
-```
-
-### Run with HTML report
-```cmd
-pytest --html=reports\report.html --self-contained-html
-```
-
-### Run a specific test file
-```cmd
-pytest tests\test_login.py -v
-pytest tests\test_products.py -v
-pytest tests\test_cart.py -v
-pytest tests\test_checkout.py -v
-pytest tests\test_e2e.py -v
-```
-
-### Run a single test
-```cmd
-pytest tests\test_e2e.py::TestFullJourney::test_complete_purchase_flow -v
-```
-
-### Use the helper batch file
-```cmd
-run_tests.bat           # Run all tests
-run_tests.bat e2e       # Run only E2E tests
-run_tests.bat login     # Run only login tests
-run_tests.bat cart      # Run only cart tests
-run_tests.bat checkout  # Run only checkout tests
-```
-
----
-
-## 📁 Project Structure
-
-```
+```text
 ecommerce_automation/
 │
 ├── config/
-│   └── config.py              ← All settings (URL, browser, timeouts, credentials)
-│
-├── pages/                     ← Page Object Model (POM)
-│   ├── base_page.py           ← Shared Selenium helpers (click, type, wait…)
-│   ├── login_page.py          ← Login page locators & actions
-│   ├── products_page.py       ← Inventory/products page
-│   ├── cart_page.py           ← Shopping cart page
-│   └── checkout_page.py       ← Step 1, Step 2, Confirmation pages
-│
+├── pages/
 ├── tests/
-│   ├── test_login.py          ← Login / auth tests (data-driven via Excel)
-│   ├── test_products.py       ← Sort & filter tests (data-driven via CSV)
-│   ├── test_cart.py           ← Add/remove cart tests
-│   ├── test_checkout.py       ← Checkout form & flow tests (data-driven)
-│   └── test_e2e.py            ← Full end-to-end journey tests
-│
 ├── utils/
-│   ├── driver_factory.py      ← Creates Chrome/Firefox/Edge WebDriver
-│   ├── logger.py              ← Colored console + rotating file logger
-│   ├── screenshot.py          ← Auto screenshot on failure
-│   └── data_reader.py         ← Read Excel (.xlsx) and CSV files
-│
 ├── test_data/
-│   ├── users.xlsx             ← Usernames, passwords, expected outcome
-│   ├── checkout_data.xlsx     ← First name, last name, zip, expected outcome
-│   └── products.csv           ← Expected product names and prices
-│
 ├── reports/
-│   ├── report.html            ← HTML test report (generated after run)
-│   └── screenshots/           ← Auto-captured failure screenshots
-│
 ├── logs/
-│   └── test_run.log           ← Rotating log file
-│
-├── conftest.py                ← Shared fixtures + auto-screenshot on failure
-├── pytest.ini                 ← pytest configuration
-├── requirements.txt           ← Python dependencies
-├── setup_windows.bat          ← One-click Windows setup
-└── run_tests.bat              ← Helper to run tests from CMD
+├── conftest.py
+├── pytest.ini
+├── requirements.txt
+├── setup_windows.bat
+├── run_tests.bat
+└── README.md
 ```
 
 ---
 
-## ⚙️ Configuration
+# ✅ Test Coverage
 
-Edit `config/config.py` to change settings:
+### Authentication
 
-```python
-BROWSER   = "chrome"   # Options: "chrome", "firefox", "edge"
-HEADLESS  = False      # True = no visible browser window (faster CI)
+* Valid Login
+* Invalid Login
+* Locked User
+* Empty Credentials
+* Logout
+
+### Products
+
+* Verify Product Listing
+* Sort A-Z
+* Sort Z-A
+* Sort Price Low-High
+* Sort Price High-Low
+
+### Cart
+
+* Add Product
+* Remove Product
+* Multiple Product Cart
+* Cart Badge Validation
+
+### Checkout
+
+* Checkout Information
+* Validation Messages
+* Order Summary
+* Order Confirmation
+
+### End-to-End
+
+* Complete Purchase Flow
+* Multiple Item Purchase
+
+---
+
+# 📊 Reports
+
+The framework automatically generates:
+
+* HTML Report
+* Failure Screenshots
+* Execution Logs
+
+```text
+reports/
+│── report.html
+│── screenshots/
+
+logs/
+│── test_run.log
 ```
 
 ---
 
-## 📊 Test Data Files
+# 📈 Design Pattern
 
-### `test_data/users.xlsx` — Login scenarios
-| username | password | expected_login |
-|---|---|---|
-| standard_user | secret_sauce | True |
-| locked_out_user | secret_sauce | False |
-| invalid_user | wrong_pass | False |
+✔ Page Object Model (POM)
 
-### `test_data/checkout_data.xlsx` — Checkout form validation
-| first_name | last_name | zip_code | should_pass |
-|---|---|---|---|
-| Alice | Smith | 10001 | True |
-| | Brown | 30003 | False |
+✔ Data-Driven Framework
 
-### `test_data/products.csv` — Expected product catalogue
-| product_name | expected_price |
-|---|---|
-| Sauce Labs Backpack | 29.99 |
-| Sauce Labs Bike Light | 9.99 |
+✔ Utility-Based Architecture
+
+✔ Reusable Components
+
+✔ Explicit Wait Strategy
 
 ---
 
-## 📋 HTML Report
-
-After running tests, open:
-```
-reports\report.html
-```
-Double-click it in File Explorer — it opens in your browser and shows:
-- ✅ / ❌ Pass/Fail for each test
-- Duration per test
-- Embedded failure screenshots
-- Full console log
-
----
-
-## 🔧 Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| `python` not recognized | Re-install Python and check "Add to PATH" |
-| `ChromeDriver` error | `webdriver-manager` auto-installs it; ensure Chrome is up-to-date |
-| `ModuleNotFoundError` | Run `venv\Scripts\activate` then `pip install -r requirements.txt` |
-| Tests fail with timeout | Increase `IMPLICIT_WAIT` in `config.py` or check internet connection |
-| Browser window flashes and closes | Normal during test run; check `reports\report.html` for results |
-
----
-
-## 🐙 GitHub – Push Your Project
+# ⚙ Installation
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit: E-Commerce Automation Framework"
-git remote add origin https://github.com/YOUR_USERNAME/ecommerce-automation.git
-git push -u origin main
+git clone https://github.com/YOUR_USERNAME/ecommerce-automation-framework.git
+
+cd ecommerce-automation
+
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
 ```
 
 ---
 
-## 📦 Dependencies
+# ▶ Run Tests
 
-| Package | Purpose |
-|---|---|
-| `selenium` | Browser automation |
-| `pytest` | Test runner |
-| `pytest-html` | HTML test reports |
-| `openpyxl` | Read/write Excel files |
-| `webdriver-manager` | Auto-downloads ChromeDriver/GeckoDriver |
-| `colorlog` | Colored console logging |
-| `Faker` | Generate fake test data (optional use) |
+Run all tests
+
+```bash
+pytest
+```
+
+Generate HTML Report
+
+```bash
+pytest --html=reports/report.html --self-contained-html
+```
+
+Run Login Tests
+
+```bash
+pytest tests/test_login.py
+```
+
+Run Product Tests
+
+```bash
+pytest tests/test_products.py
+```
+
+Run Cart Tests
+
+```bash
+pytest tests/test_cart.py
+```
+
+Run Checkout Tests
+
+```bash
+pytest tests/test_checkout.py
+```
+
+Run End-to-End Tests
+
+```bash
+pytest tests/test_e2e.py
+```
+
+---
+
+# 📷 Framework Highlights
+
+* Professional Project Structure
+* Easy Maintenance
+* Clean Code
+* Modular Design
+* Real Industry Practices
+* GitHub Ready
+* Recruiter Friendly
+
+---
+
+# 📚 Future Enhancements
+
+* Jenkins CI/CD Integration
+* GitHub Actions
+* Docker Support
+* Parallel Execution
+* Allure Reporting
+* API Automation
+* Database Validation
+
+---
+
+# 👨‍💻 Author
+
+**Uday Anand**
+
+GitHub: https://github.com/udayanand7
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a **Star ⭐** on GitHub.
